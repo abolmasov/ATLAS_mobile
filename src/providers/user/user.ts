@@ -37,6 +37,8 @@ export class User {
     let seq = this.api.post('login', accountInfo).share();
 
     seq.subscribe((res: any) => {
+
+      localStorage.setItem("token", res.token);
       // If the API returned a successful response, mark the user as logged in
       if (res.status == 'success') {
         this._loggedIn(res);
@@ -61,6 +63,18 @@ export class User {
       if (res.status == 'success') {
         this._loggedIn(res);
       }
+    }, err => {
+      console.error('ERROR', err);
+    });
+
+    return seq;
+  }
+
+  sendRequest() {
+    let seq = this.api.get('posts').share();
+
+    seq.subscribe((res: any) => {
+      return res;
     }, err => {
       console.error('ERROR', err);
     });

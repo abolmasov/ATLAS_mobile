@@ -1,19 +1,47 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicPage, ModalController, NavController } from 'ionic-angular';
 
 import { Item } from '../../models/item';
-import { Items } from '../../providers/providers';
+import { Items } from '../../providers/items/items';
+
 
 @IonicPage()
 @Component({
   selector: 'page-list-master',
-  templateUrl: 'list-master.html'
+  templateUrl: 'list-master.html',
+  providers: [Items]
 })
-export class ListMasterPage {
+export class ListMasterPage implements OnInit {
   currentItems: Item[];
 
-  constructor(public navCtrl: NavController, public items: Items, public modalCtrl: ModalController) {
-    this.currentItems = this.items.query();
+  constructor(public navCtrl: NavController,
+    public items: Items,
+    public modalCtrl: ModalController) {
+
+  }
+
+  ngOnInit() {
+    this.getTransactions();
+  }
+
+  getTransactions() {
+    this.items.query().subscribe((resp) => {
+      //debugger;
+    }, (err) => {
+      debugger;
+    });
+
+    this.items.uip().subscribe((resp) => {
+      //debugger;
+    }, (err) => {
+      debugger;
+    });
+
+    this.items.accounts().subscribe((resp) => {
+      //debugger;
+    }, (err) => {
+      debugger;
+    });
   }
 
   /**
